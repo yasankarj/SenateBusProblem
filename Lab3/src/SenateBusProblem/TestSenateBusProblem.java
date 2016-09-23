@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author YRJayawardane
  */
-public class Simulation {
+public class TestSenateBusProblem {
     
     private static final SharedData sharedData = new SharedData();
     private static final ScheduledExecutorService busScheduler = Executors.newScheduledThreadPool(1);
