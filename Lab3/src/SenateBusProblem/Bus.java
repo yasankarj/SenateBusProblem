@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author YRJayawardane
+ * @author Yasanka Jayawardane
  */
 public class Bus extends Thread{
     
@@ -63,6 +63,6 @@ public class Bus extends Thread{
         sharedData.getMutex().release();
         
         System.out.println("Riders Queue mutex released by Bus "+this.getId());
-        System.out.println("Bus Departs "+this.getId());
+        System.out.println("Bus ["+this.getId()+"] Departs ");
     }
 }

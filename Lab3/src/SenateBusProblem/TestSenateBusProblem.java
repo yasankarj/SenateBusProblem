@@ -1,61 +1,44 @@
 package SenateBusProblem;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
 
 /**
  *
- * @author YRJayawardane
+ * @author Yasanka Jayawardane
  */
 public class TestSenateBusProblem {
-    
+
     private static final SharedData sharedData = new SharedData();
-    private static final ScheduledExecutorService busScheduler = Executors.newScheduledThreadPool(1);
-    private static final ScheduledExecutorService riderScheduler = Executors.newScheduledThreadPool(1);
-    
-    public static void main(String[] args){
-               
-        for (int i = 0; i < 75; i++) {
-            createRiderThread();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("To run the program with default set mean values, press 1");
+        System.out.println("To configure set mean values, press 2");
+        int userResponse = sc.nextInt();
+        if (userResponse == 1) {
+            //run program with default parameters
+            testMethod(30000, 1200000);
+        } else if (userResponse == 2) {
+            long riderSetMean = 30000;
+            long busSetMean = 1200000;
+
+            try {
+                System.out.println("Enter rider arrival set mean values, in milliseconds :");
+                riderSetMean = sc.nextLong();
+                System.out.println("Enter bus arrival set mean values, in milliseconds :");
+                busSetMean = sc.nextLong();
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid input entered");
+            } finally {
+                //run program with default parameters
+                testMethod(riderSetMean, busSetMean);
+            }
         }
-        createBusThread();
-        createBusThread();
-        
-        
+
     }
-    
-    public static void simulateBusArrivalActivity(long x){
-       final Runnable simulateBusArrival = new Runnable() {
-       @Override
-       public void run() {
-           createBusThread();
-       }
-     };
-        
-        final ScheduledFuture<?> busHandler =
-       busScheduler.schedule(simulateBusArrival, x, TimeUnit.SECONDS);
-        
-    }
-    
-    public static void simulateRiderArrivalActivity(long x){
-       final Runnable simulateBusArrival = new Runnable() {
-       @Override
-       public void run() {
-           createRiderThread();
-       }
-     };
-        
-       riderScheduler.schedule(simulateBusArrival, x, TimeUnit.SECONDS);
-        
-    }
-    
-    public static void createBusThread(){
-        new Bus(sharedData).start();
-    }
-    
-    public static void createRiderThread(){
-        new Rider(sharedData).start();
+
+    public static void testMethod(long riderSetMean, long busSetMean) {
+        new RiderThreadRunner(sharedData, riderSetMean).start();
+        new BusThreadRunner(sharedData, busSetMean).start();
     }
 }

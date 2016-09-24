@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
- * @author YRJayawardane
+ * @author Yasanka Jayawardane
  */
 public class SharedData {
     private final AtomicInteger waitingRidersCount = new AtomicInteger(0);    //the number of riders in the boarding area

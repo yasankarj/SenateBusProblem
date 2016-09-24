@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author YRJayawardane
+ * @author Yasanka Jayawardane
  */
 public class Rider extends Thread{
     private final SharedData sharedData;    //holds shared semaphores
