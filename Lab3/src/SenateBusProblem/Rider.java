@@ -23,12 +23,8 @@ public class Rider extends Thread{
         try {
             /*
             New rider that comes to the bus stop waits on the riders mutex 
-            to enter the queue (to update waiting_riders_count value)
-            */
+           */
             sharedData.getMutex().acquire();
-            /*
-            New rider acuires the riders mutex
-            */
             System.out.println("Riders mutex aquired by a Rider " +this.getId() );
             
         
@@ -38,26 +34,22 @@ public class Rider extends Thread{
         
         sharedData.getWaitingRidersCount().incrementAndGet();
         /*
-        New rider enters the queue by incrementing waiting_riders_count value    
+        New rider enters the queue by incrementing waitingRidersCount value    
         */
         
         sharedData.getMutex().release();
         /*
-        New rider releases the riders mutex after entering the queue
+        After updating the waitingRidersCount, rider releases the riders mutex.
         */
         
         System.out.println("Riders mutex released by Rider " +this.getId());
         
         try {
             /*
-            Now the rider wait to aqcuire the bus semaphore to enter the bus.
+            Rider waits to aqcuire the bus semaphore to enter the bus.
             It has to wait till Bus signals to acquire the lock.
             */
             sharedData.getBus().acquire();
-            /*
-            Rider is able to acquire the bus semaphore
-            */
-            
             System.out.println("Bus semaphore acquired by a Rider");
             
         } catch (InterruptedException ex) {
@@ -68,6 +60,6 @@ public class Rider extends Thread{
         /*
         Rider signals that he has boarded
         */
-        System.out.println("Boarded semaphore released by Rider");
+        System.out.println("Boarded semaphore released by Rider " +this.getId());
     }
 }

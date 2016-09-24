@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class SharedData {
     private final AtomicInteger waitingRidersCount = new AtomicInteger(0);    //the number of riders in the boarding area
-    private final Semaphore mutex = new Semaphore(1);   //protects   waitingRidersCount
+    private final Semaphore mutex = new Semaphore(1);   //protects   waitingRidersCount, so that it controls access to passenger to get onboard
     private final Semaphore bus = new Semaphore(0);     //signals when the bus has arrived
     private final Semaphore boarded = new Semaphore(0);     //signals that a rider has boarded.
 

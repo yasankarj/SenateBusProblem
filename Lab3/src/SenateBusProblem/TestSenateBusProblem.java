@@ -16,12 +16,13 @@ public class TestSenateBusProblem {
     private static final ScheduledExecutorService riderScheduler = Executors.newScheduledThreadPool(1);
     
     public static void main(String[] args){
-        
-        createBusThread();
+               
         for (int i = 0; i < 75; i++) {
             createRiderThread();
         }
         createBusThread();
+        createBusThread();
+        
         
     }
     

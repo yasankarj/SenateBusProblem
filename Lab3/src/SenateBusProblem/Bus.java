@@ -23,14 +23,8 @@ public class Bus extends Thread{
     
     private void runMethod(){
         try {
-            /*
-            Bus waits to acquire riders mutex so that it can start boarding
-            */
-            sharedData.getMutex().acquire();
-            /*
-            Bus acquired riders mutex. So now no other Rider can enter the queue
-            till the Bus releases the lock
-            */
+            sharedData.getMutex().acquire();    //Bus waits to acquire riders mutex so that it can start boarding
+            //Riders cannot enter the bus stop, till the bus releases lock
             System.out.println("Riders Queue mutex aquired by Bus "  +this.getId());
         } catch (InterruptedException ex) {
             Logger.getLogger(Bus.class.getName()).log(Level.SEVERE, null, ex);
@@ -41,12 +35,13 @@ public class Bus extends Thread{
         
         System.out.format("\nRiders count in the Queue: %d\n",sharedData.getWaitingRidersCount().get());
         System.out.format("\nRiders count who can board: %d\n", boardingRidersCount);
-
+        /*
+        The loop signals each rider in turn and waits for her to board.
+        By controlling the number of signals,
+        the bus prevents more than 50 riders from boarding.
+        */
         for(int i=0; i < boardingRidersCount; i++){
-            /*
-            Bus signals riders that one of them can enter
-            */
-            sharedData.getBus().release();
+            sharedData.getBus().release();      //signals each rider that they can get into the bus
             System.out.println("Bus semaphore released by Bus " +this.getId());
             try {
                 sharedData.getBoarded().acquire();
@@ -60,7 +55,8 @@ public class Bus extends Thread{
         }
 
         /*
-        Bus updates waiting riders queue count and releases lock
+        Updates the waiting riders count and relase the lock so that passengers can come to the bus stop.
+        Then the bus is fine to depart
         */
         int n = sharedData.getWaitingRidersCount().get();
         sharedData.getWaitingRidersCount().set(Math.max(n - 50, 0));
